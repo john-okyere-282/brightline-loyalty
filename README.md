@@ -1,4 +1,4 @@
-# Brightline Loyalty
+# Brightline Loyalty - Points Service
 
 Brightline Loyalty calculates reward points for a member's purchase in Ghana cedis (GHS). This is the refactored submission for the Code Quality & Testing applied lab.
 
@@ -55,4 +55,4 @@ Supply an additional `TierRule` to the scheme when adding a tier. Reuse `Multipl
 
 JaCoCo and PIT exclude Demo, which is checked by running it. PIT uses its default mutation operators and has no minimum score configured. Reports are generated at `target/site/jacoco/index.html` and `target/pit-reports/index.html`.
 
-See [analysis](ANALYSIS.md), [design rationale](RATIONALE.md), [AI usage](AI-USAGE.md), [before](docs/before-refactor.txt), [after](docs/after-refactor.txt), and the [presentation guide](docs/presentation-guide.md).
+See the [architecture](ARCHITECTURE.md), [inherited code analysis](ANALYSIS.md), [design rationale](RATIONALE.md), [AI usage record](AI-USAGE.md), and [before](docs/before-refactor.txt) and [after](docs/after-refactor.txt) verification results.
