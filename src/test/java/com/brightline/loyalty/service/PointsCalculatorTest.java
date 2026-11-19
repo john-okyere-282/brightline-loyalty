@@ -1,9 +1,12 @@
-package com.brightline.loyalty;
+package com.brightline.loyalty.service;
 
+import com.brightline.loyalty.repository.InMemoryMemberRepository;
+import com.brightline.loyalty.service.PointsCalculator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class PointsCalculatorTest {
 
