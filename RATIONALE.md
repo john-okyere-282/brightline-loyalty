@@ -22,4 +22,4 @@ The STANDARD, SILVER, and GOLD examples remain in a parameterized test that exec
 
 ## Standards and scope
 
-The supplied AmaliTech Coding Standards Java Edition draft guided named constants (3.4), small methods (4), preserving causes (6), data records (8), behavioral assertions (9), Java formatting (11.1), and SOLID (12). The inherited com.brightline.loyalty namespace is retained. Coverage applies to the service and rules, with a separate console smoke run. See the recorded results for the verified runtime and any build diagnostics.
+The supplied AmaliTech Coding Standards Java Edition draft guided named constants (3.4), small methods (4), preserving causes (6), data records (8), behavioral assertions (9), Java formatting (11.1), and SOLID (12). The inherited com.brightline.loyalty namespace is retained. The coverage gate includes every production class. The demo test verifies exact awards and rejections at the console boundary. See the recorded results for the verified runtimes and build diagnostics.

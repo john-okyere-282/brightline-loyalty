@@ -1,25 +1,35 @@
 Brightline Loyalty final verification
 
-Apache Maven 3.9.16, Microsoft JDK 25.0.5.0.2, compiler release 21.
-JDK 21 is the project baseline. This record verifies JDK 25 as the Maven and demo runtime.
+Apache Maven 3.9.16, compiler release 21.
+Verified runtimes: BellSoft Liberica JDK 21.0.11+11 and Microsoft JDK 25.0.5.0.2.
 
 mvn -o clean verify org.pitest:pitest-maven:mutationCoverage
-Tests run: 48, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 49, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 
-JaCoCo (Demo excluded)
-Instructions: 407/407
-Lines: 92/92
+JaCoCo 0.8.14 (all production classes)
+Instructions: 491/491
+Lines: 111/111
 Branches: 36/36
+All coverage checks passed. Maven verify requires zero missed instructions,
+lines or branches. Omitting DemoTest in a separate clean verify run left 19
+lines uncovered and correctly failed the build at the JaCoCo check.
 Report: target/site/jacoco/index.html
 
-PIT (Demo excluded, default mutation operators)
-Generated 24 mutations. Killed 24 (100%). No uncovered or surviving mutants.
-PIT reported 80/81 lines for mutated classes and 100% test strength.
+PIT 1.20.7 (all production classes, default mutation operators)
+Generated 35 mutations. Killed 35 (100%). No uncovered or surviving mutants.
+PIT reported 99/100 lines for mutated classes and 100% test strength.
 PIT's mutated-class line metric differs in scope from the JaCoCo report.
-The first measured run killed 23/24. A comparison change at the 128-character
-ID limit survived. A test proving 128 is accepted killed it on the final run.
+One JDK 25 repeat showed two worker RUN_ERROR statuses despite a 100% headline.
+A subsequent run verified all 35 KILLED statuses in the XML report.
+An earlier run before including the demo detected a surviving mutation at
+the 128-character ID limit. A test at that limit now kills it.
 Report: target/pit-reports/index.html
+
+Static review
+Checked all 22 Java files for the 100-column limit, sorted explicit imports,
+tabs and matching top-level type names. Checked documentation links and Git
+whitespace. The presentation guide is local and outside the submission.
 
 java -cp target/brightline-loyalty.jar com.brightline.loyalty.Demo
 

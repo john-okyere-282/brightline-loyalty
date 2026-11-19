@@ -21,7 +21,7 @@ Zero is valid. Negative and missing amounts are rejected. IDs must be nonblank a
 
 ## Build and run
 
-Use JDK 21 as the project baseline and Maven 3.9. The compiler release remains 21. The recorded verification used Maven 3.9.16 and Microsoft JDK 25.0.5.0.2. A JDK 21 runtime was unavailable for this run.
+Use JDK 21 and Maven 3.9. The compiler release is 21. Verification used Maven 3.9.16 with BellSoft Liberica JDK 21.0.11 and Microsoft JDK 25.0.5.0.2. Run `mvn -v` to check which JDK Maven is using.
 
 ```shell
 mvn clean verify
@@ -49,10 +49,10 @@ Supply an additional `TierRule` to the scheme when adding a tier. Reuse `Multipl
 
 | Check | Result |
 |---|---|
-| Clean Maven run | 48 tests, 0 failures, 0 errors, 0 skipped |
-| JaCoCo | 92/92 lines, 36/36 branches, 407/407 instructions |
-| PIT | 24/24 mutants killed. No surviving or uncovered mutants. |
+| Clean Maven run | 49 tests, 0 failures, 0 errors, 0 skipped |
+| JaCoCo | 111/111 lines, 36/36 branches, 491/491 instructions |
+| PIT | 35/35 mutants killed. No surviving or uncovered mutants. |
 
-JaCoCo and PIT exclude Demo, which is checked by running it. PIT uses its default mutation operators and has no minimum score configured. Reports are generated at `target/site/jacoco/index.html` and `target/pit-reports/index.html`.
+Both tools include all production classes. The demo test checks the exact output and error streams. During `mvn verify`, JaCoCo fails the build if any line, branch, or instruction is missed. PIT uses its default mutation operators and reports the actual score. Reports are generated at `target/site/jacoco/index.html` and `target/pit-reports/index.html`.
 
 See the [architecture](ARCHITECTURE.md), [inherited code analysis](ANALYSIS.md), [design rationale](RATIONALE.md), [AI usage record](AI-USAGE.md), and [before](docs/before-refactor.txt) and [after](docs/after-refactor.txt) verification results.

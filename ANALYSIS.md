@@ -1,6 +1,6 @@
 # Inherited code review
 
-The README identifies the starter at fa5ba88 as AI-generated. Main is at b4cedd6, which already injects the repository. The working tree includes staged and unstaged package moves. The supplied lab brief guides the review. After the initial check-in, the user supplied the AmaliTech Coding Standards Java Edition draft (October 2026). Sections 3.4, 4, 6, 8, 9, 11.1 and 12 informed the changes.
+The lab brief identifies the starter at fa5ba88 as AI-generated. At the initial check-in, main was at b4cedd6, which already injected the repository. The working tree also contained staged and unstaged package moves. The supplied lab brief and AmaliTech Coding Standards Java Edition draft (October 2026) informed the review. Sections 3.4, 4, 6, 8, 9, 11.1 and 12 informed the changes.
 
 | Priority | Location | Problem and impact | Principle and proposed fix | Final status |
 |---|---|---|---|---|
@@ -12,7 +12,7 @@ The README identifies the starter at fa5ba88 as AI-generated. Main is at b4cedd6
 | Medium | Member.tier and PointsCalculator.calculatePoints | A comment implies a closed tier list and policy numbers are scattered. | Keep open tier names and collect named settings in a scheme that rejects duplicates. | Fixed |
 | High | Starter PointsCalculator.repository | Hard-wired repository made lookup failures difficult to isolate. | Dependency Inversion Principle. Inject the existing narrow interface. | Fixed in b4cedd6 |
 
-The one-method repository interface has no clear Interface Segregation violation. Its documented return and exception contract will ensure implementations are substitutable.
+The one-method repository interface follows Interface Segregation. Implementations share the same documented return and exception contract, so the calculator can use a different adapter without changing how it handles absence or an outage.
 
 ## Inherited tests
 
