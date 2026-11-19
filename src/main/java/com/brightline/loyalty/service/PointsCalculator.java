@@ -59,7 +59,6 @@ public final class PointsCalculator {
     }
   }
 
-
   private void validateMemberId(String memberId) {
     if (memberId == null || memberId.isBlank()) {
       throw new IllegalArgumentException("Member id is required.");

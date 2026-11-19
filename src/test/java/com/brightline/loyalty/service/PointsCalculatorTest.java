@@ -86,6 +86,16 @@ class PointsCalculatorTest {
   }
 
   @Test
+  void acceptsAnIdAtTheLengthLimit() {
+    String memberId = "x".repeat(128);
+    var calculator = calculatorWith(id -> id.equals(memberId)
+        ? Optional.of(new Member(id, "Member", "STANDARD"))
+        : Optional.empty());
+
+    assertEquals(1, calculator.calculatePoints(memberId, BigDecimal.TEN));
+  }
+
+  @Test
   void rejectsLongIdsBeforeLookup() {
     var calculator = calculatorWith(memberId -> {
       throw new AssertionError("Invalid id must not reach the repository");
@@ -155,7 +165,8 @@ class PointsCalculatorTest {
   @Test
   void rejectsOverflowWhenCombiningBonuses() {
     var tier = new MultiplierTierRule("STANDARD", BigDecimal.ONE);
-    var scheme = new LoyaltyScheme(List.of(tier), List.of(amount -> Integer.MAX_VALUE, amount -> 1));
+    var scheme = new LoyaltyScheme(
+        List.of(tier), List.of(amount -> Integer.MAX_VALUE, amount -> 1));
     var calculator = new PointsCalculator(new InMemoryMemberRepository(), scheme);
 
     var failure = assertThrows(PointsOverflowException.class,
