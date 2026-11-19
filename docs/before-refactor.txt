@@ -1,52 +1,19 @@
-C:\Program Files\JetBrains\IntelliJ IDEA 2026.3\plugins\maven-plugin\lib\maven3\bin\mvn.cmd -Didea.version=2026.3 -Dmaven.ext.class.path=C:\Program Files\JetBrains\IntelliJ IDEA 2026.3\plugins\maven-plugin\lib\intellij.maven.rt\maven-event-listener.jar -Djansi.passthrough=true -Dstyle.color=always -Dmaven.repo.local=C:\Users\JohnOkyere\.m2\repository test -f pom.xml
-[INFO] Scanning for projects...
-[INFO]
-[INFO] -------------< com.amalitech.training:brightline-loyalty >--------------
-[INFO] Building brightline-loyalty 1.0.0
-[INFO]   from pom.xml
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ brightline-loyalty ---
-[INFO] argLine set to -javaagent:C:\\Users\\JohnOkyere\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.14\\org.jacoco.agent-0.8.14-runtime.jar=destfile=C:\\Users\\JohnOkyere\\Downloads\\brightline-loyalty\\target\\jacoco.exec
-[INFO]
-[INFO] --- resources:3.4.0:resources (default-resources) @ brightline-loyalty ---
-[INFO] skip non existing resourceDirectory C:\Users\JohnOkyere\Downloads\brightline-loyalty\src\main\resources
-[INFO]
-[INFO] --- compiler:3.15.0:compile (default-compile) @ brightline-loyalty ---
-[INFO] Recompiling the module because of changed source code.
-[INFO] Compiling 5 source files with javac [debug release 21] to target\classes
-[INFO]
-[INFO] --- resources:3.4.0:testResources (default-testResources) @ brightline-loyalty ---
-[INFO] skip non existing resourceDirectory C:\Users\JohnOkyere\Downloads\brightline-loyalty\src\test\resources
-[INFO]
-[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ brightline-loyalty ---
-[INFO] Recompiling the module because of changed dependency.
-[INFO] Compiling 1 source file with javac [debug release 21] to target\test-classes
-[INFO]
-[INFO] --- surefire:3.2.5:test (default-test) @ brightline-loyalty ---
-[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
-[INFO]
-[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running com.brightline.loyalty.PointsCalculatorTest
+Original starter run recorded before this session
+mvn test
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+
+Current checkout before further production edits
+main at b4cedd6 with existing staged and unstaged package moves
+Maven 3.9.16, Microsoft JDK 25.0.5.0.2, compiler release 21
+mvn -o clean test (using IntelliJ's bundled Maven)
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+Warnings: Mockito self-attached a Java agent; the JVM warned about dynamic agent loading and class data sharing.
+
+java -cp target/classes com.brightline.loyalty.Demo
 Awarded 10 points to Kofi Mensah
-Awarded 30 points to Yaa Boateng
-Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
-WARNING: A Java agent has been loaded dynamically (C:\Users\JohnOkyere\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.5\byte-buddy-agent-1.17.5.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.320 s -- in com.brightline.loyalty.PointsCalculatorTest
-[INFO]
-[INFO] Results:
-[INFO]
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  4.764 s
-[INFO] Finished at: 2026-11-19T12:57:04Z
-[INFO] ------------------------------------------------------------------------
+Result m1 (STANDARD), GHS 100  -> 10
+Awarded 50 points to Ama Owusu
+Result m2 (GOLD), GHS 250      -> 50
+Result unknown member, GHS 100 -> 0
