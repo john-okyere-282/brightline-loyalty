@@ -1,6 +1,7 @@
 package com.brightline.loyalty;
 
 import com.brightline.loyalty.repository.InMemoryMemberRepository;
+import com.brightline.loyalty.rule.LoyaltyScheme;
 import com.brightline.loyalty.service.MemberNotFoundException;
 import com.brightline.loyalty.service.PointsCalculator;
 import java.math.BigDecimal;
@@ -9,7 +10,8 @@ public final class Demo {
   private Demo() {}
 
   public static void main(String[] args) {
-    PointsCalculator calculator = new PointsCalculator(new InMemoryMemberRepository());
+    PointsCalculator calculator = new PointsCalculator(
+        new InMemoryMemberRepository(), new LoyaltyScheme());
     System.out.println("STANDARD, GHS 100 -> "
         + calculator.calculatePoints("m1", BigDecimal.valueOf(100)));
     System.out.println("GOLD, GHS 250 -> "

@@ -3,6 +3,8 @@ package com.brightline.loyalty.service;
 import com.brightline.loyalty.model.Member;
 import com.brightline.loyalty.repository.MemberRepository;
 import com.brightline.loyalty.repository.RepositoryAccessException;
+import com.brightline.loyalty.rule.LoyaltyScheme;
+import com.brightline.loyalty.rule.TierRule;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -11,8 +13,10 @@ import java.util.Optional;
 public final class PointsCalculator {
   private static final int MAX_MEMBER_ID_LENGTH = 128;
   private final MemberRepository repository;
+  private final LoyaltyScheme scheme;
 
-  public PointsCalculator(MemberRepository repository) {
+  public PointsCalculator(MemberRepository repository, LoyaltyScheme scheme) {
+    this.scheme = Objects.requireNonNull(scheme, "scheme");
     this.repository = Objects.requireNonNull(repository, "repository");
   }
 
@@ -20,25 +24,15 @@ public final class PointsCalculator {
     validateMemberId(memberId);
     validateAmount(amount);
     Member member = findMember(memberId);
+    TierRule tier = scheme.findTier(member.tier()).orElseThrow(UnknownTierException::new);
     try {
       int basePoints = amount.divide(BigDecimal.TEN, 0, RoundingMode.DOWN).intValueExact();
-      int tierPoints = calculateTierPoints(member, basePoints);
+      int tierPoints = tier.calculateTierPoints(basePoints);
       int bonusPoints = amount.compareTo(BigDecimal.valueOf(500)) > 0 ? 50 : 0;
       return Math.addExact(tierPoints, bonusPoints);
     } catch (ArithmeticException overflow) {
       throw new PointsOverflowException(overflow);
     }
-  }
-
-  private int calculateTierPoints(Member member, int basePoints) {
-    if ("SILVER".equals(member.tier())) {
-      return BigDecimal.valueOf(basePoints).multiply(new BigDecimal("1.5"))
-          .setScale(0, RoundingMode.DOWN).intValueExact();
-    }
-    if ("GOLD".equals(member.tier())) {
-      return Math.multiplyExact(basePoints, 2);
-    }
-    return basePoints;
   }
 
   private void validateAmount(BigDecimal amount) {
