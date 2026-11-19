@@ -17,7 +17,7 @@ class LoyaltySchemeTest {
     var second = new MultiplierTierRule("STANDARD", BigDecimal.TWO);
 
     var failure = assertThrows(IllegalArgumentException.class,
-        () -> new LoyaltyScheme(List.of(first, second)));
+        () -> new LoyaltyScheme(List.of(first, second), List.of()));
     assertEquals("Duplicate tier registration: STANDARD", failure.getMessage());
   }
 
@@ -38,7 +38,7 @@ class LoyaltySchemeTest {
     };
 
     var failure = assertThrows(IllegalArgumentException.class,
-        () -> new LoyaltyScheme(List.of(rule)));
+        () -> new LoyaltyScheme(List.of(rule), List.of()));
     assertEquals("Registered tier name is required.", failure.getMessage());
   }
 }

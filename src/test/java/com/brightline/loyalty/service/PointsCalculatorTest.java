@@ -10,6 +10,7 @@ import com.brightline.loyalty.model.Member;
 import com.brightline.loyalty.repository.InMemoryMemberRepository;
 import com.brightline.loyalty.repository.MemberRepository;
 import com.brightline.loyalty.repository.RepositoryAccessException;
+import com.brightline.loyalty.rule.BigSpenderBonusRule;
 import com.brightline.loyalty.rule.LoyaltyScheme;
 import com.brightline.loyalty.rule.MultiplierTierRule;
 import java.io.IOException;
@@ -93,6 +94,7 @@ class PointsCalculatorTest {
         () -> calculator.calculatePoints("x".repeat(129), BigDecimal.TEN));
     assertEquals("Member id must be at most 128 characters.", failure.getMessage());
   }
+
   @ParameterizedTest
   @CsvSource(value = {
       "NULL,Purchase amount is required.",
@@ -132,11 +134,33 @@ class PointsCalculatorTest {
   @Test
   void calculatesPointsForANewTierRegisteredByTheCaller() {
     var rule = new MultiplierTierRule("PLATINUM", new BigDecimal("2.5"));
-    var scheme = new LoyaltyScheme(List.of(rule));
+    var scheme = new LoyaltyScheme(List.of(rule), List.of());
     var calculator = new PointsCalculator(
         id -> Optional.of(new Member(id, "Member", "PLATINUM")), scheme);
 
     assertEquals(2, calculator.calculatePoints("m1", BigDecimal.TEN));
+  }
+
+  @Test
+  void addsAllApplicableBonuses() {
+    var tier = new MultiplierTierRule("STANDARD", BigDecimal.ONE);
+    var first = new BigSpenderBonusRule(BigDecimal.valueOf(100), 7);
+    var second = new BigSpenderBonusRule(BigDecimal.valueOf(500), 11);
+    var scheme = new LoyaltyScheme(List.of(tier), List.of(first, second));
+    var calculator = new PointsCalculator(new InMemoryMemberRepository(), scheme);
+
+    assertEquals(78, calculator.calculatePoints("m1", BigDecimal.valueOf(600)));
+  }
+
+  @Test
+  void rejectsOverflowWhenCombiningBonuses() {
+    var tier = new MultiplierTierRule("STANDARD", BigDecimal.ONE);
+    var scheme = new LoyaltyScheme(List.of(tier), List.of(amount -> Integer.MAX_VALUE, amount -> 1));
+    var calculator = new PointsCalculator(new InMemoryMemberRepository(), scheme);
+
+    var failure = assertThrows(PointsOverflowException.class,
+        () -> calculator.calculatePoints("m1", BigDecimal.ZERO));
+    assertEquals("Calculated points exceed the supported integer range.", failure.getMessage());
   }
 
   private PointsCalculator calculatorWith(MemberRepository repository) {
