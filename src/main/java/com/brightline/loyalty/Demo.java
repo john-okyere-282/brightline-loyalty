@@ -8,22 +8,27 @@ import com.brightline.loyalty.service.PointsCalculator;
 import java.math.BigDecimal;
 
 public final class Demo {
+  private final PointsCalculator calculator =
+      new PointsCalculator(new InMemoryMemberRepository(), new LoyaltyScheme());
+
   private Demo() {}
 
   public static void main(String[] args) {
-    var calculator = new PointsCalculator(new InMemoryMemberRepository(), new LoyaltyScheme());
-    showPurchase(calculator, "STANDARD", "m1", "100");
-    showPurchase(calculator, "GOLD", "m2", "250");
-    showPurchase(calculator, "SILVER", "m3", "200");
-    showPurchase(calculator, "STANDARD", "m1", "500");
-    showPurchase(calculator, "STANDARD", "m1", "500.01");
-    showPurchase(calculator, "GOLD", "m2", "600");
-    showPurchase(calculator, "Unknown member", "unknown", "100");
-    showPurchase(calculator, "Invalid purchase", "m1", "-1");
+    new Demo().run();
   }
 
-  private static void showPurchase(
-      PointsCalculator calculator, String label, String memberId, String amount) {
+  private void run() {
+    showPurchase("STANDARD", "m1", "100");
+    showPurchase("GOLD", "m2", "250");
+    showPurchase("SILVER", "m3", "200");
+    showPurchase("STANDARD", "m1", "500");
+    showPurchase("STANDARD", "m1", "500.01");
+    showPurchase("GOLD", "m2", "600");
+    showPurchase("Unknown member", "unknown", "100");
+    showPurchase("Invalid purchase", "m1", "-1");
+  }
+
+  private void showPurchase(String label, String memberId, String amount) {
     try {
       int points = calculator.calculatePoints(memberId, new BigDecimal(amount));
       System.out.println(label + ", GHS " + amount + " -> " + points);
