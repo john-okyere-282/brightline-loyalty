@@ -1,0 +1,36 @@
+Brightline Loyalty final verification
+
+Apache Maven 3.9.16, Microsoft JDK 25.0.5.0.2, compiler release 21.
+JDK 21 is the project baseline. This record verifies JDK 25 as the Maven and demo runtime.
+
+mvn -o clean verify org.pitest:pitest-maven:mutationCoverage
+Tests run: 48, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+
+JaCoCo (Demo excluded)
+Instructions: 407/407
+Lines: 92/92
+Branches: 36/36
+Report: target/site/jacoco/index.html
+
+PIT (Demo excluded, default mutation operators)
+Generated 24 mutations. Killed 24 (100%). No uncovered or surviving mutants.
+PIT reported 80/81 lines for mutated classes and 100% test strength.
+PIT's mutated-class line metric differs in scope from the JaCoCo report.
+The first measured run killed 23/24. A comparison change at the 128-character
+ID limit survived. A test proving 128 is accepted killed it on the final run.
+Report: target/pit-reports/index.html
+
+java -cp target/brightline-loyalty.jar com.brightline.loyalty.Demo
+
+stdout
+STANDARD, GHS 100 -> 10
+GOLD, GHS 250 -> 50
+SILVER, GHS 200 -> 30
+STANDARD, GHS 500 -> 50
+STANDARD, GHS 500.01 -> 100
+GOLD, GHS 600 -> 170
+
+stderr
+Unknown member rejected: Member was not found.
+Invalid purchase rejected: Purchase amount cannot be negative.
