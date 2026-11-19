@@ -1,4 +1,4 @@
-# Brightline Loyalty — Points Service
+# Brightline Loyalty - Points Service
 
 This is the starter repository for the **Code Quality & Testing** applied lab.
 Read the lab brief alongside this repository; it explains the business, what you
