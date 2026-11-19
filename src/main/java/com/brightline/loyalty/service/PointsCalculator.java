@@ -3,6 +3,8 @@ package com.brightline.loyalty.service;
 import com.brightline.loyalty.model.Member;
 import com.brightline.loyalty.repository.MemberRepository;
 import com.brightline.loyalty.repository.RepositoryAccessException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -14,20 +16,40 @@ public final class PointsCalculator {
     this.repository = Objects.requireNonNull(repository, "repository");
   }
 
-  public int calculatePoints(String memberId, double amount) {
+  public int calculatePoints(String memberId, BigDecimal amount) {
     validateMemberId(memberId);
+    validateAmount(amount);
     Member member = findMember(memberId);
-    int points = (int) (amount / 10);
-    if ("SILVER".equals(member.tier())) {
-      points = (int) (points * 1.5);
-    } else if ("GOLD".equals(member.tier())) {
-      points *= 2;
+    try {
+      int basePoints = amount.divide(BigDecimal.TEN, 0, RoundingMode.DOWN).intValueExact();
+      int tierPoints = calculateTierPoints(member, basePoints);
+      int bonusPoints = amount.compareTo(BigDecimal.valueOf(500)) > 0 ? 50 : 0;
+      return Math.addExact(tierPoints, bonusPoints);
+    } catch (ArithmeticException overflow) {
+      throw new PointsOverflowException(overflow);
     }
-    if (amount > 500) {
-      points += 50;
-    }
-    return points;
   }
+
+  private int calculateTierPoints(Member member, int basePoints) {
+    if ("SILVER".equals(member.tier())) {
+      return BigDecimal.valueOf(basePoints).multiply(new BigDecimal("1.5"))
+          .setScale(0, RoundingMode.DOWN).intValueExact();
+    }
+    if ("GOLD".equals(member.tier())) {
+      return Math.multiplyExact(basePoints, 2);
+    }
+    return basePoints;
+  }
+
+  private void validateAmount(BigDecimal amount) {
+    if (amount == null) {
+      throw new InvalidPurchaseException("Purchase amount is required.");
+    }
+    if (amount.signum() < 0) {
+      throw new InvalidPurchaseException("Purchase amount cannot be negative.");
+    }
+  }
+
 
   private void validateMemberId(String memberId) {
     if (memberId == null || memberId.isBlank()) {
