@@ -1,15 +1,20 @@
 package com.brightline.loyalty;
 
 import com.brightline.loyalty.repository.InMemoryMemberRepository;
+import com.brightline.loyalty.service.MemberNotFoundException;
 import com.brightline.loyalty.service.PointsCalculator;
 
-// A tiny runner so you can see the calculator work before you change anything.
-public class Demo {
-    public static void main(String[] args) {
-        PointsCalculator calculator = new PointsCalculator(new InMemoryMemberRepository());
+public final class Demo {
+  private Demo() {}
 
-        System.out.println("Result m1 (STANDARD), GHS 100  -> " + calculator.calculatePoints("m1", 100));
-        System.out.println("Result m2 (GOLD), GHS 250      -> " + calculator.calculatePoints("m2", 250));
-        System.out.println("Result unknown member, GHS 100 -> " + calculator.calculatePoints("unknown", 100));
+  public static void main(String[] args) {
+    PointsCalculator calculator = new PointsCalculator(new InMemoryMemberRepository());
+    System.out.println("STANDARD, GHS 100 -> " + calculator.calculatePoints("m1", 100));
+    System.out.println("GOLD, GHS 250 -> " + calculator.calculatePoints("m2", 250));
+    try {
+      calculator.calculatePoints("unknown", 100);
+    } catch (MemberNotFoundException rejection) {
+      System.err.println("Purchase rejected: " + rejection.getMessage());
     }
+  }
 }

@@ -2,43 +2,52 @@ package com.brightline.loyalty.service;
 
 import com.brightline.loyalty.model.Member;
 import com.brightline.loyalty.repository.MemberRepository;
+import com.brightline.loyalty.repository.RepositoryAccessException;
+import java.util.Objects;
+import java.util.Optional;
 
-public class PointsCalculator {
+public final class PointsCalculator {
+  private static final int MAX_MEMBER_ID_LENGTH = 128;
+  private final MemberRepository repository;
 
-    // The calculator makes its own repository. Convenient, but it means callers
-    // and tests cannot give it a different one.
-    private final MemberRepository repository;
+  public PointsCalculator(MemberRepository repository) {
+    this.repository = Objects.requireNonNull(repository, "repository");
+  }
 
-    public PointsCalculator(MemberRepository repository) {
-        this.repository = repository;
+  public int calculatePoints(String memberId, double amount) {
+    validateMemberId(memberId);
+    Member member = findMember(memberId);
+    int points = (int) (amount / 10);
+    if ("SILVER".equals(member.tier())) {
+      points = (int) (points * 1.5);
+    } else if ("GOLD".equals(member.tier())) {
+      points *= 2;
     }
-
-    public int calculatePoints(String memberId, double amount) {
-        try {
-            Member member = repository.findById(memberId);
-
-            // base points: one point for every GHS 10 spent
-            int points = (int) (amount / 10);
-
-            // apply the member's tier multiplier
-            if (member.getTier().equals("STANDARD")) {
-                points = points * 1;
-            } else if (member.getTier().equals("SILVER")) {
-                points = (int) (points * 1.5);
-            } else if (member.getTier().equals("GOLD")) {
-                points = points * 2;
-            }
-
-            // loyalty bonus for big spenders
-            if (amount > 500) {
-                points = points + 50;
-            }
-
-            System.out.println("Awarded " + points + " points to " + member.getName());
-            return points;
-        } catch (Exception e) {
-            // something went wrong (for example the member was not found) - award nothing
-            return 0;
-        }
+    if (amount > 500) {
+      points += 50;
     }
+    return points;
+  }
+
+  private void validateMemberId(String memberId) {
+    if (memberId == null || memberId.isBlank()) {
+      throw new IllegalArgumentException("Member id is required.");
+    }
+    if (memberId.length() > MAX_MEMBER_ID_LENGTH) {
+      throw new IllegalArgumentException("Member id must be at most 128 characters.");
+    }
+  }
+
+  private Member findMember(String memberId) {
+    Optional<Member> member;
+    try {
+      member = repository.findById(memberId);
+    } catch (RepositoryAccessException failure) {
+      throw new MemberLookupException("Member lookup could not be completed.", failure);
+    }
+    if (member == null) {
+      throw new MemberLookupException("Member repository returned null instead of Optional.", null);
+    }
+    return member.orElseThrow(MemberNotFoundException::new);
+  }
 }
