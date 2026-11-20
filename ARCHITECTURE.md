@@ -30,7 +30,43 @@ flowchart LR
     Calculator -->|calculates each bonus| Bonus
     Multiplier["MultiplierTierRule"] -.->|implements| Tier
     Spender["BigSpenderBonusRule"] -.->|implements| Bonus
+    Repository -->|declares access failure| Exceptions["exception package"]
+    Calculator -->|raises calculation failures| Exceptions
+    Demo -->|handles expected rejections| Exceptions
 ```
+
+## Mind map
+
+```mermaid
+mindmap
+  root((Brightline Loyalty))
+    Demo
+      Creates the repository and scheme
+      Prints awards and expected rejections
+    model
+      Member
+    repository
+      MemberRepository
+      InMemoryMemberRepository
+    rule
+      LoyaltyScheme
+      TierRule and MultiplierTierRule
+      BonusRule and BigSpenderBonusRule
+    service
+      PointsCalculator
+    exception
+      RepositoryAccessException
+      InvalidPurchaseException
+      MemberNotFoundException
+      MemberLookupException
+      UnknownTierException
+      PointsOverflowException
+```
+
+The `exception` package holds all six custom exception types. The repository interface
+declares `RepositoryAccessException`. The calculator translates a declared storage
+failure to `MemberLookupException` with its cause, and the demo catches the two
+expected business rejections shown in its examples.
 
 ## Decisions and verification
 

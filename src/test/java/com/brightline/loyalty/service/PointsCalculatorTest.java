@@ -6,10 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.brightline.loyalty.exception.InvalidPurchaseException;
+import com.brightline.loyalty.exception.MemberLookupException;
+import com.brightline.loyalty.exception.MemberNotFoundException;
+import com.brightline.loyalty.exception.PointsOverflowException;
+import com.brightline.loyalty.exception.RepositoryAccessException;
+import com.brightline.loyalty.exception.UnknownTierException;
 import com.brightline.loyalty.model.Member;
 import com.brightline.loyalty.repository.InMemoryMemberRepository;
 import com.brightline.loyalty.repository.MemberRepository;
-import com.brightline.loyalty.repository.RepositoryAccessException;
 import com.brightline.loyalty.rule.BigSpenderBonusRule;
 import com.brightline.loyalty.rule.LoyaltyScheme;
 import com.brightline.loyalty.rule.MultiplierTierRule;

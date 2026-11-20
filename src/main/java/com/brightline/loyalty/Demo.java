@@ -1,9 +1,9 @@
 package com.brightline.loyalty;
 
+import com.brightline.loyalty.exception.InvalidPurchaseException;
+import com.brightline.loyalty.exception.MemberNotFoundException;
 import com.brightline.loyalty.repository.InMemoryMemberRepository;
 import com.brightline.loyalty.rule.LoyaltyScheme;
-import com.brightline.loyalty.service.InvalidPurchaseException;
-import com.brightline.loyalty.service.MemberNotFoundException;
 import com.brightline.loyalty.service.PointsCalculator;
 import java.math.BigDecimal;
 

@@ -31,6 +31,10 @@ Checked all 22 Java files for the 100-column limit, sorted explicit imports,
 tabs and matching top-level type names. Checked documentation links and Git
 whitespace. The presentation guide is local and outside the submission.
 
+Exception package follow-up
+The clean verification and PIT run passed on JDK 21 after moving all six
+custom exceptions. It confirmed 49 tests, full JaCoCo coverage and 35 killed mutants. JDK 25 verify also passed.
+
 java -cp target/brightline-loyalty.jar com.brightline.loyalty.Demo
 
 stdout

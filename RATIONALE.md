@@ -8,6 +8,8 @@ The starter calculated whole base points before multiplying. Keeping that order 
 
 The existing injected MemberRepository stays. Optional.empty expresses a normal absence. RepositoryAccessException lets adapters report an operational problem with its original cause. The calculator catches that declared failure and translates it into MemberLookupException. A broken null Optional is reported explicitly and unexpected programming failures propagate. The console demo handles expected business rejections at the entry point.
 
+The custom exceptions live in one `exception` package so their definitions are easy to find. The repository still declares its checked access failure, and the calculator still decides how each failure reaches its caller.
+
 Member is a record because it carries three immutable strings. Tier names remain open strings so registration can introduce names without editing a shared enum. LoyaltyScheme owns duplicate checks and defensive collection copies. The built-in rules are immutable. Custom rules should honor the interface contracts and remain stable after registration.
 
 A switch would be short for the current tiers, but every new tier would require editing the calculator. TierRule and BonusRule each describe one kind of calculation, and the caller chooses the rules. One multiplier implementation covers all three current tiers. Separate classes for each default tier would repeat the same calculation. Moving policy values to external configuration made little sense for a small standalone lab without a requirement to edit policy at runtime.

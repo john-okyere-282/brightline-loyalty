@@ -1,4 +1,4 @@
-package com.brightline.loyalty.service;
+package com.brightline.loyalty.exception;
 
 public final class MemberNotFoundException extends RuntimeException {
   public MemberNotFoundException() {

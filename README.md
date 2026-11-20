@@ -38,9 +38,10 @@ In IntelliJ, select the project JDK for both the Maven runner and the Demo run c
 |---|---|
 | Demo | Wires the in-memory repository and default scheme, then demonstrates output. |
 | model/Member | Immutable data record with an open-ended tier name. |
-| repository | Member lookup contract, typed access failure and immutable in-memory sample data. |
+| repository | Member lookup contract and immutable in-memory sample data. |
 | rule | Interfaces and implementations for tier and bonus rules. LoyaltyScheme validates and holds the registrations. |
-| service | PointsCalculator validates and coordinates the calculation. Service exceptions communicate failures. |
+| service | PointsCalculator validates and coordinates the calculation. |
+| exception | Custom types for invalid purchases, missing members, lookup failures, unknown tiers, and overflow. |
 | src/test | JUnit 5 cases and a Mockito repository failure fixture. |
 
 Supply an additional `TierRule` to the scheme when adding a tier. Reuse `MultiplierTierRule` for a multiplier or implement `TierRule` for a different calculation. The calculator is unchanged by either extension. Default scheme settings live in code and require rebuilding to change.
@@ -55,4 +56,4 @@ Supply an additional `TierRule` to the scheme when adding a tier. Reuse `Multipl
 
 Both tools include all production classes. The demo test checks the exact output and error streams. During `mvn verify`, JaCoCo fails the build if any line, branch, or instruction is missed. PIT uses its default mutation operators and reports the actual score. Reports are generated at `target/site/jacoco/index.html` and `target/pit-reports/index.html`.
 
-See the [architecture](ARCHITECTURE.md), [inherited code analysis](ANALYSIS.md), [design rationale](RATIONALE.md), [AI usage record](AI-USAGE.md), and [before](docs/before-refactor.txt) and [after](docs/after-refactor.txt) verification results.
+See the [architecture and mind map](ARCHITECTURE.md#mind-map), [inherited code analysis](ANALYSIS.md), [design rationale](RATIONALE.md), [AI usage record](AI-USAGE.md), and [before](docs/before-refactor.txt) and [after](docs/after-refactor.txt) verification results.
